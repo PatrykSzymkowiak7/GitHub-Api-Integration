@@ -5,8 +5,7 @@ public class Program
     private static void Main(string[] args)
     {
         Console.WriteLine("Type your github username");
-        //string? userName = Console.ReadLine();
-        string userName = "patrykszymkowiak7";
+        string? userName = Console.ReadLine();
 
         if (userName != null && userName.Length > 0)
         {

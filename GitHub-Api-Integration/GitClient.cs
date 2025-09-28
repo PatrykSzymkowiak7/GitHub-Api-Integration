@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using GitHub_Api_Integration.Models;
+using System.Net;
+using System.Text.Json;
 
 namespace GitHub_Api_Integration
 {
@@ -16,12 +18,18 @@ namespace GitHub_Api_Integration
                 response = client.GetAsync(uri).Result;
                 response.EnsureSuccessStatusCode();
                 string responseBody = response.Content.ReadAsStringAsync().Result;
-                Console.WriteLine(responseBody);
+                var events = JsonSerializer.Deserialize<List<GitHubEvent>>(responseBody);
+                foreach(var eve in events)
+                {
+                    Console.WriteLine($"[{eve.CreatedAt}] {eve.Actor.Login} did {eve.Type} in repo {eve.Repo.Name}");
+                }
             }
             catch(Exception ex)
             { 
                 throw ex;
             }
         }
+
+        
     }
 }
