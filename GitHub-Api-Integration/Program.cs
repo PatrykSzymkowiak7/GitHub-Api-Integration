@@ -10,6 +10,11 @@ public class Program
         if (userName != null && userName.Length > 0)
         {
             GitClient gitClient = new GitClient(userName);
+            var events = gitClient.GetEvents();
+            foreach (var eve in events)
+            {
+                Console.WriteLine($"[{eve.CreatedAt}] {eve.Actor.Login} did {eve.Type} in repo {eve.Repo.Name}");
+            }
         }
         else
         {
