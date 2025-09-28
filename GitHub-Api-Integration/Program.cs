@@ -1,8 +1,20 @@
-﻿Console.WriteLine("Type your github username");
+﻿using GitHub_Api_Integration;
 
-string? username = Console.ReadLine();
-string uri = String.Format("https://api.github.com/users/{0}/events", username);
+public class Program
+{
+    private static void Main(string[] args)
+    {
+        Console.WriteLine("Type your github username");
+        //string? userName = Console.ReadLine();
+        string userName = "patrykszymkowiak7";
 
-var client = new HttpClient();
-var response = client.GetAsync(uri).Result.EnsureSuccessStatusCode();
-var responseString = await response.Content.ReadAsStringAsync();
+        if (userName != null && userName.Length > 0)
+        {
+            GitClient gitClient = new GitClient(userName);
+        }
+        else
+        {
+            Console.WriteLine("Username cannot be empty");
+        }
+    } 
+}
