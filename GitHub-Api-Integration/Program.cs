@@ -2,23 +2,25 @@
 
 public class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
-        Console.WriteLine("Type your github username");
-        string? userName = Console.ReadLine();
+        while(true)
+        {
+            Console.WriteLine("Type your github username, or type end to quit");
+            string? input = Console.ReadLine();
 
-        if (userName != null && userName.Length > 0)
-        {
-            GitClient gitClient = new GitClient(userName);
-            var events = gitClient.GetEvents();
-            foreach (var eve in events)
+            if (input != null && input.Length > 0)
             {
-                Console.WriteLine($"[{eve.CreatedAt}] {eve.Actor.Login} did {eve.Type} in repo {eve.Repo.Name}");
+                if (input.ToLower() == "end")
+                    break;
+
+                GitClient gitClient = new GitClient(input);
+                var events = gitClient.GetEvents();
+                foreach (var eve in events.Result)
+                    Console.WriteLine($"[{eve.CreatedAt}] {eve.Actor.Login} did {eve.Type} in repo {eve.Repo.Name}");
             }
-        }
-        else
-        {
-            Console.WriteLine("Username cannot be empty");
+            else
+                Console.WriteLine("Value cannot be empty");
         }
     } 
 }
